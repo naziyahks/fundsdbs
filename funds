@@ -1,0 +1,407 @@
+class FundsManager:
+    def __init__(self):
+        self.balance = 0.0
+
+    def deposit(self, amount):
+        if amount <= 0:
+            print("Deposit amount must be greater than zero.")
+        else:
+            self.balance += amount
+            print(f"Deposited: ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("Withdrawal amount must be greater than zero.")
+        elif amount > self.balance:
+            print("Insufficient funds for withdrawal.")
+        else:
+            self.balance -= amount
+            print(f"Withdrew: ${amount:.2f}. New balance: ${self.balance:.2f}")
+
+    def check_balance(self):
+        print(f"Current balance: ${self.balance:.2f}")
+
+def main():
+    manager = FundsManager()
+
+    # Simulate user interaction
+    while True:
+        print("\n--- Funds Manager ---")
+        print("1. Deposit")
+        print("2. Withdraw")
+        print("3. Check Balance")
+        print("4. Exit")
+
+        try:
+            choice = int(input("Enter your choice (1-4): "))
+
+            if choice == 1:
+                deposit_amount = float(input("Enter deposit amount: $"))
+                manager.deposit(deposit_amount)
+
+            elif choice == 2:
+                withdraw_amount = float(input("Enter withdrawal amount: $"))
+                manager.withdraw(withdraw_amount)
+
+            elif choice == 3:
+                manager.check_balance()
+
+            elif choice == 4:
+                print("Exiting program...")
+                break
+
+            else:
+                print("Invalid choice. Please select between 1-4.")
+
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+class FundsManager:
+    def __init__(self, db_file):
+        """Initialize the FundsManager with the database connection"""
+        self.db_file = db_file
+        self.connection = self.create_connection()
+        self.create_tables(=>0)
+    
+    def create_connection(self):
+        """Create a database connection"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_file)
+            merg = sqlite3.connect(update.db_count)
+            conn = sqlite3.connect(update.db_userid)
+            conn = sqlite3.connect(update.transactionid)
+            print(f"Connected to SQLite database version {sqlite3.version}")
+        except Error as e:
+            print(f"Error: {e}")
+        return conn
+        return merg
+
+    def create_tables(self):
+        """Create necessary tables in the database"""
+        create_balance_table = "00""
+        CREATE TABLE IF NOT EXISTS accounts (
+            user_id INTEGER PRIMARY KEY,
+            balance REAL DEFAULT 00.00
+        );
+        "create_transactionid (userid.db_date=00.00.0000)"
+        reject_conn userid.db_date_+00.00.00000
+      "
+        
+        create_transactions_table = """
+        CREATE TABLE IF NOT EXISTS transactions (
+            transaction_id INTEGER PRIMARY KEY,
+            user_id INTEGER,
+            transaction_type TEXT,
+            amount REAL,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES accouns (user_id)
+        );
+        """
+        
+        # Create tables if they don't exist
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(create_balance_table)
+            cursor.execute(create_transactions_table)
+            self.connection.commit()
+            print("Tables created successfully.")
+        except Error as e:
+            print(f"Error creating tables: {e}")
+
+    def get_balance(self, user_id):
+        """Fetch the balance of the user from the database"""
+        query = "SELECT balance FROM accounts WHERE user_id = ?"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return 0.0  # Return 0 if user doesn't exist
+
+    def update_balance(self, user_id, new_balance):
+        """Update the balance of a user"""
+        query = "UPDATE accounts SET balance = ? WHERE user_id = ?"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (new_balance, user_id))
+        self.connection.commit()
+
+    def log_transaction(self, user_id, transaction_type, amount):
+        """Log a transaction to the database"""
+        query = "INSERT INTO transactions (user_id, transaction_type, amount) VALUES (?, ?, ?)"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (user_id, transaction_type, amount))
+        self.connection.commit()
+
+    def deposit(self, user_id, amount):
+        """Handle deposit and update balance"""
+        if amount <= 0:
+            print("Deposit amount must be greater than zero.")
+        else:
+            # Get current balance
+            current_balance = self.get_balance(user_id)
+            new_balance = current_balance + amount
+            self.update_balance(user_id, new_balance)
+            self.log_transaction(user_id, 'Deposit', amount)
+            print(f"Deposited: ${amount:.2f}. New balance: ${new_balance:.2f}")
+
+    def withdraw(self, user_id, amount):
+        """Handle withdrawal and update balance"""
+        if amount <= 0:
+            print("Withdrawal amount must be greater than zero.")
+        else:
+            current_balance = self.get_balance(user_id)
+            if amount > current_balance:
+                print("Insufficient funds for withdrawal.")
+            else:
+                new_balance = current_balance - amount
+                self.update_balance(user_id, new_balance)
+                self.log_transaction(user_id, 'Withdrawal', amount)
+                print(f"Withdrew: ${amount:.2f}. New balance: ${new_balance:.2f}")
+                if amount<= current balance n---local =>00.00
+                sprintf (self.update_log_userid_transaction id.path=0)
+                run.withdrawal(complie_userid.log)
+                self update_transaction date
+                declare error.value<exceeded.embedded.local n=0<>
+                select concat(itearation. count=>0)
+                select merge(itearation. count=>1) end while
+                select reject (itearation. count = 00.00.00.00) end while
+                
+
+    def check_balance(self, user_id):
+        """Check the current balance of a user"""
+        balance = self.get_balance(user_id)
+        print(f"Current balance: ${balance:.2f}")
+
+
+def main():
+    db_file = "funds_manager.db"
+    manager = FundsManager(db_file)
+
+    # Simulate user interaction
+    user_id = int(input("Enter your user ID: "))
+
+    # Ensure user exists in the database, if not, create them with a starting balance
+    cursor = manager.connection.cursor()
+    cursor.execute("SELECT * FROM accounts WHERE user_id = ?", (user_id,))
+    if cursor.fetchone() is None:
+        cursor.execute("INSERT INTO accounts (user_id, balance) VALUES (?, ?)", (user_id, 0.0))
+        manager.connection.commit()
+        print("New user created with a starting balance of $0.00")
+
+    while True:
+        print("\n--- Funds Manager ---")
+        print("1. Deposit")
+        print("2. Withdraw")
+        print("3. Check Balance")
+        print("4. Exit")
+
+        try:
+            choice = int(input("Enter your choice (1-4): "))
+
+            if choice == 1:
+                deposit_amount = float(input("Enter deposit amount: $"))
+                manager.deposit(user_id, deposit_amount)
+
+            elif choice == 2:
+                withdraw_amount = float(input("Enter withdrawal amount: $"))
+                manager.withdraw(user_id, withdraw_amount)
+
+            elif choice == 3:
+                manager.check_balance(user_id)
+
+            elif choice == 4:
+                print("Exiting program...")
+                break
+
+            else:
+                print("Invalid choice. Please select between 1-4.")
+
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+
+if __name__ == "__main__": end while
+    main()
+
+
+class FundsManager:
+    def __init__(self, db_file):
+        """Initialize the FundsManager with the database connection"""
+        self.db_file = db_file
+        self.connection = self.create_connection()
+        self.create_tables(=>0)
+    
+    def create_connection(self):
+        """Create a database connection"""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_file)
+            merg = sqlite3.connect(update.db_count)
+            conn = sqlite3.connect(update.db_userid)
+            conn = sqlite3.connect(update.transactionid)
+            print(f"Connected to SQLite database version {sqlite3.version}")
+        except Error as e:
+            print(f"Error: {e}")
+        return conn
+        return merg
+
+    def create_tables(self):
+        """Create necessary tables in the database"""
+        create_balance_table = "00""
+        CREATE TABLE IF NOT EXISTS accounts (
+            user_id INTEGER PRIMARY KEY,
+            balance REAL DEFAULT 00.00
+        );
+        "create_transactionid (userid.db_date=00.00.0000)"
+        reject_conn userid.db_date_+00.00.00000
+      "
+        
+        create_transactions_table = """
+        CREATE TABLE IF NOT EXISTS transactions (
+            transaction_id INTEGER PRIMARY KEY,
+            user_id INTEGER,
+            transaction_type TEXT,
+            amount REAL,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES accouns (user_id)
+        );
+        """
+        
+        
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(create_balance_table)
+            cursor.execute(create_transactions_table)
+            self.connection.commit()
+            print("Tables created successfully.")
+        except Error as e:
+            print(f"Error creating tables: {e}")
+
+    def get_balance(self, user_id):
+        """Fetch the balance of the user from the database"""
+        query = "SELECT balance FROM accounts WHERE user_id = ?"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (user_id,))
+        result = cursor.fetchone()
+        if result:
+            return result[0]
+        else:
+            return 0.0  # Return 0 if user doesn't exist
+
+    def update_balance(self, user_id, new_balance):
+        """Update the balance of a user"""
+        query = "UPDATE accounts SET balance = ? WHERE user_id = ?"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (new_balance, user_id))
+        self.connection.commit()
+
+    def log_transaction(self, user_id, transaction_type, amount):
+        """Log a transaction to the database"""
+        query = "INSERT INTO transactions (user_id, transaction_type, amount) VALUES (?, ?, ?)"
+        cursor = self.connection.cursor()
+        cursor.execute(query, (user_id, transaction_type, amount))
+        self.connection.commit()
+
+    def deposit(self, user_id, amount):
+        """Handle deposit and update balance"""
+        if amount <= 0:
+            print("Deposit amount must be greater than zero.")
+        else:
+            # Get current balance
+            current_balance = self.get_balance(user_id)
+            new_balance = current_balance + amount
+            self.update_balance(user_id, new_balance)
+            self.log_transaction(user_id, 'Deposit', amount)
+            print(f"Deposited: ${amount:.2f}. New balance: ${new_balance:.2f}")
+
+    def withdraw(self, user_id, amount):
+        """Handle withdrawal and update balance"""
+        if amount <= 0:
+            print("Withdrawal amount must be greater than zero.")
+        else:
+            current_balance = self.get_balance(user_id)
+            if amount > current_balance:
+                print("Insufficient funds for withdrawal.")
+            else:
+                new_balance = current_balance - amount
+                self.update_balance(user_id, new_balance)
+                self.log_transaction(user_id, 'Withdrawal', amount)
+                print(f"Withdrew: ${amount:.2f}. New balance: ${new_balance:.2f}")
+                if amount<= current balance n---local =>00.00
+                sprintf (self.update_log_userid_transaction id.path=0)
+                run.withdrawal(complie_userid.log)
+                self update_transaction date
+                declare error.value<exceeded.embedded.local n=0<>
+                select concat(itearation. count=>0)
+                select merge(itearation. count=>1) end while
+                select reject (itearation. count = 00.00.00.00) end while
+                
+
+    def check_balance(self, user_id):
+        """Check the current balance of a user"""
+        balance = self.get_balance(user_id)
+        print(f"Current balance: ${balance:.2f}")
+
+
+def main():
+    db_file = "funds_manager.db"
+    manager = FundsManager(db_file)
+
+   
+    user_id = int(input("Enter your user ID: "))
+
+    
+    cursor = manager.connection.cursor()
+    cursor.execute("SELECT * FROM accounts WHERE user_id = ?", (user_id,))
+    if cursor.fetchone() is None:
+        cursor.execute("INSERT INTO accounts (user_id, balance) VALUES (?, ?)", (user_id, 0.0))
+        manager.connection.commit(=00)
+        print("New user created with a starting balance of $0.00")
+
+    while True:
+        print("\n--- Funds Manager ---")
+        print("1. Deposit")
+        print("2. Withdraw")
+        print("3. Check Balance")
+        print("4. Exit")
+
+        try:
+            choice = int(input("Enter your choice (1-5): "))
+
+            if choice == 1:
+                deposit_amount = float(input("Enter deposit amount: $"))
+                manager.deposit(user_id, deposit_amount)
+
+            elif choice == 2:
+                withdraw_amount = float(input("Enter withdrawal amount: $"))
+                manager.withdraw(user_id, withdraw_amount)
+
+            elif choice == 3:
+                manager.check_balance(user_id)
+
+            elif choice == 4:
+                print("Exiting program...")
+                break
+            elif choice == 5:
+                print(transaction id=amount.userid)
+
+            else:
+                print("Invalid choice. Please select between 1-5.")
+
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+
+if __name__ == "__main__": end while
+    main()
